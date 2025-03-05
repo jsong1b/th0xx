@@ -1,8 +1,9 @@
+# for Super Smash Bros. Melee
+
 import sys
 import time
 import random
 import math
-import select
 
 import evdev
 import uinput
@@ -107,18 +108,32 @@ def translateInputs(keeb_device):
             gamepad_device.emit(uinput.ABS_X, graystick_current[0], syn = False)
             gamepad_device.emit(uinput.ABS_Y, graystick_current[1], syn = True)
 
+            cstick_target = [0, 0]
             if isSublist([MODX_Bind, MODY_Bind], active_keys):
                 if CUP_Bind in active_keys_vals.keys(): gamepad_device.emit(uinput.BTN_NORTH, active_keys_vals[CUP_Bind])
                 elif CDOWN_Bind in active_keys_vals.keys(): gamepad_device.emit(uinput.BTN_SOUTH, active_keys_vals[CDOWN_Bind])
                 if CLEFT_Bind in active_keys_vals.keys(): gamepad_device.emit(uinput.BTN_WEST, active_keys_vals[CLEFT_Bind])
                 elif CRIGHT_Bind in active_keys_vals.keys(): gamepad_device.emit(uinput.BTN_EAST, active_keys_vals[CRIGHT_Bind])
+            elif MODX_Bind in active_keys:
+                if CLEFT_Bind in active_keys:    cstick_target[0] = -68
+                elif CRIGHT_Bind in active_keys: cstick_target[0] = 68
+                if CUP_Bind in active_keys:      cstick_target[1] = 42
+                elif CDOWN_Bind in active_keys:  cstick_target[1] = -42
+            elif MODY_Bind in active_keys:
+                if CLEFT_Bind in active_keys:    cstick_target[0] = -42
+                elif CRIGHT_Bind in active_keys: cstick_target[0] = 42
+                if CUP_Bind in active_keys:      cstick_target[1] = 68
+                elif CDOWN_Bind in active_keys:  cstick_target[1] = -68
             else:
-                if CUP_Bind in active_keys: gamepad_device.emit(uinput.ABS_RY, 80, syn = False)
-                elif CDOWN_Bind in active_keys: gamepad_device.emit(uinput.ABS_RY, -80, syn = False)
-                else: gamepad_device.emit(uinput.ABS_RY, 0, syn = False)
-                if CLEFT_Bind in active_keys: gamepad_device.emit(uinput.ABS_RX, -80, syn = True)
-                elif CRIGHT_Bind in active_keys: gamepad_device.emit(uinput.ABS_RX, 80, syn = True)
-                else: gamepad_device.emit(uinput.ABS_RX, 0, syn = True)
+                if CLEFT_Bind in active_keys:    cstick_target[0] = -80
+                elif CRIGHT_Bind in active_keys: cstick_target[0] = 80
+                if CUP_Bind in active_keys:      cstick_target[1] = 80
+                elif CDOWN_Bind in active_keys:  cstick_target[1] = -80
+
+                if CDOWN_Bind and CLEFT_Bind:    cstick_target = [-42, -68]
+                elif CDOWN_Bind and CRIGHT_Bind: cstick_target = [42, -68]
+            gamepad_device.emit(uinput.ABS_RX, cstick_target[0], syn = False)
+            gamepad_device.emit(uinput.ABS_RY, cstick_target[1], syn = False)
 
             analog_trigger_val = 0
             if L_Bind in active_keys_vals.keys():
