@@ -1,0 +1,18 @@
+BasedOnStyle: LLVM
+
+# indents
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# aligns
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros: Consecutive
+AlignEscapedNewlines: Left
+
+# misc
+SortIncludes: true
