@@ -15,4 +15,5 @@ AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: Left
 
 # misc
+ColumnLimit: 100
 SortIncludes: true

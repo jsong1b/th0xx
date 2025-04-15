@@ -1,4 +1,4 @@
-Checks: '-*,bugprone-*'
+Checks: '-*,bugprone-*,readability-identifier-naming'
 WarningsAsErrors: '*'
 
 CheckOptions:
